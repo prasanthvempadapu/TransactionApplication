@@ -9,18 +9,18 @@ const DeleteTransaction = ()=>{
     useEffect(()=>{
         const getTransaction = async ()=>{
             try{
-                const response = await axios.get(`http://localhost:3000/getTransactionById/${id}`)
+                const response = await axios.get(`http://localhost:3000/transactions/${id}`)
                 setTransaction(response.data);
             }catch(error){
-                throw new Error(error);
+                navigate('/error');
             }
         }
         getTransaction();
-    },[id]);
+    },[id,navigate]);
 
     const deleteTransaction = async ()=>{
         try{
-            const response = await axios.delete(`http://localhost:3000/deleteTransaction/${id}`);
+            const response = await axios.delete(`http://localhost:3000/transactions/delete/${id}`);
             console.log(response.data);
             navigate("/");
         }catch(error){

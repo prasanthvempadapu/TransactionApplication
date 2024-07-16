@@ -1,32 +1,32 @@
 import express from 'express';
 import connectDb from './db/database.js';
-import transactionSchema from './models/transactionSchema.js'
+import transactionSchema from './models/transactions.js'
 import cors from 'cors';
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/getTransactions", async (req,res) => {
+app.get("/transactions", async (req,res) => {
     try{
         const transactions = await transactionSchema.find();
         res.send(transactions);
     }
     catch(error){
-        res.status(400).send(error);
+        res.status(500).send(error);
     }
 });
 
-app.get("/getTransactionById/:id",async (req,res)=>{
+app.get("/transactions/:id",async (req,res)=>{
     const {id} = req.params;
     try{
         const transaction = await transactionSchema.findById(id);
         res.send(transaction);
     }catch(error){
-        res.status(400).send(error);
+        res.status(500).send(error);
     }
 });
 
-app.post("/addTransaction", async (req,res)=>{
+app.post("/transactions/add", async (req,res)=>{
     try{
         const transaction = transactionSchema(req.body);
         await transaction.save();
@@ -36,7 +36,7 @@ app.post("/addTransaction", async (req,res)=>{
     }
 });
 
-app.put("/updateTransaction/:id", async (req,res)=>{
+app.put("/transactions/update/:id", async (req,res)=>{
     const {id} = req.params;
     const transaction = req.body;
     try{
@@ -46,11 +46,11 @@ app.put("/updateTransaction/:id", async (req,res)=>{
         }
         res.send('transaction updated');
     }catch(error){
-        res.status(400).send(error);
+        res.status(500).send(error);
     }
 });
 
-app.delete("/deleteTransaction/:id", async (req,res) => {
+app.delete("/transactions/delete/:id", async (req,res) => {
     const {id} = req.params;
     try{
         const transaction = await transactionSchema.findByIdAndDelete(id);
@@ -59,7 +59,7 @@ app.delete("/deleteTransaction/:id", async (req,res) => {
         }
         res.send('transaction deleted');
     }catch(error){
-        res.status(400).send(error);
+        res.status(500).send(error);
     }
 });
 

@@ -1,6 +1,6 @@
 import mongoose, { mongo, Schema } from "mongoose";
 
-const transactionSchema = new Schema({
+const transactions = new Schema({
     description : {
         type:'string'
     },
@@ -16,4 +16,4 @@ const transactionSchema = new Schema({
 
 })
 
-export default mongoose.model('transaction', transactionSchema);
+export default mongoose.model('transaction', transactions);

@@ -17,12 +17,12 @@ const AddTransaction = ()=>{
 
         }
         try{
-            const response = await axios.post('http://localhost:3000/addTransaction',formData);
+            const response = await axios.post('http://localhost:3000/transactions/add',formData);
             console.log(response.data);
             navigate("/");
 
         }catch(error){
-            throw new Error(error.message);
+            navigate('/error');
         }
     }
 

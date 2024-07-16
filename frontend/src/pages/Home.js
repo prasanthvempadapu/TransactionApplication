@@ -3,24 +3,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {format} from 'date-fns';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Loading from '../component/Loading.js'
+
 const Home = ()=>{
     const [transactions,setTransactions] = useState([]);
+    const [dataRecieved,setDataRecieved] = useState(false);
     const navigate = useNavigate();
     useEffect(()=>{
-        
+       
         const getAllTransactions = async ()=>{
             try{
-                const response  = await axios.get("http://localhost:3000/getTransactions");
+                const response  = await axios.get("http://localhost:3000/transactions");
                 console.log('test',response.data);
                 setTransactions(response.data);
+                setDataRecieved(true);
             }catch(error){
-                throw new Error(error.message);
+                console.error(error.response);
+                navigate('/error');
             }
         
         };
         getAllTransactions(); 
           
-    },[]);
+    },[navigate]);
     let n = 0;
     let balance = 0;
     let balanceTransactions=[];
@@ -42,6 +47,7 @@ const Home = ()=>{
     })
     const sortedTransactions = balanceTransactions.sort((a,b)=> new Date(b.date) - new Date(a.date));
     return(
+        dataRecieved ?
         <div className="m-5">
         <h1 className="text-center">Office Transactions</h1>
         <button onClick={()=>navigate('/AddTransaction')} className="btn btn-primary">Add Transaction</button>
@@ -77,6 +83,8 @@ const Home = ()=>{
             </tbody>
         </table>
         </div>
+       :
+       <Loading/>
     )
 }
 

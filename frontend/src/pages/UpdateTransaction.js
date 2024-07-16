@@ -9,19 +9,19 @@ const UpdateTransaction = ()=>{
     useEffect(()=>{
         const getTransaction = async ()=>{
             try{
-                const response = await axios.get(`http://localhost:3000/getTransactionById/${id}`)
+                const response = await axios.get(`http://localhost:3000/transactions/${id}`)
                 setTransaction(response.data);
             }catch(error){
-                throw new Error(error);
+                navigate('/error');
             }
         }
         getTransaction();
-    },[id]);
+    },[id, navigate]);
 
     const handleSubmit = async (event)=>{
         try{
             event.preventDefault();
-            const response = await axios.put(`http://localhost:3000/updateTransaction/${id}`,transaction);
+            const response = await axios.put(`http://localhost:3000/transactions/update/${id}`,transaction);
             console.log(response.data);
             navigate("/");
             
